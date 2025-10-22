@@ -68,7 +68,7 @@ function App() {
         <FriendsList
           friends={friends}
           selectedFriend={selectedFriend}
-          onSelection={handleSelectFriend}
+          onSelection={handleSelectFriend}          
         />
         {showAddFriend && <FormAddFriend onAddFreind={handelAddFriend} />}
         <Button onClick={handleShowAddFriend}>
@@ -79,6 +79,7 @@ function App() {
         <FormSplitBill
           selectedFriend={selectedFriend}
           onSplitBill={handleSplitBill}
+          key={selectedFriend.id}
         />
       )}
     </div>
