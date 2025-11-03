@@ -15,10 +15,7 @@ function Map() {
         navigate("form");
       }}
     >
-      <h1>Mapp</h1>
-      <h1>
-        Position: {lat}, {lng}
-      </h1>
+      
     </div>
   );
 }
