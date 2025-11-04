@@ -2,6 +2,10 @@ import { useQuiz } from "../contexts/QuizContext";
 
 function NextButton() {
   const { dispatch, answer, index, numQuestions } = useQuiz()
+
+  console.log(answer)
+  console.log(index)
+  console.log(numQuestions)
   if (answer === null) return null;
 
   if (index < numQuestions - 1) {
