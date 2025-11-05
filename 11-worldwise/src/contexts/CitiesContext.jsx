@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { createContext, useEffect, useContext, useReducer } from "react";
 
 const BASE_URL = "http://localhost:9000";
@@ -18,14 +19,14 @@ function reducer(state, action) {
         ...state,
         isLoading: false,
         cities: [...state.cities, action.payload],
-        currentCity: action.payload
+        currentCity: action.payload,
       };
     case "city/deleted":
       return {
         ...state,
         isLoading: false,
         cities: state.cities.filter((city) => city.id !== action.payload),
-        currentCity: {}
+        currentCity: {},
       };
     case "rejected":
       return { ...state, isLoading: false, error: action.payload };
@@ -67,19 +68,23 @@ function CitiesProvider({ children }) {
     fetchCitites();
   }, []);
 
-  async function getCity(id) {
-    if (Number(id) === currentCity.id) return;
+  const getCity = useCallback(
+    async function getCity(id) {
+      if (Number(id) === currentCity.id) return;
 
-    dispatch({ type: "loading" });
+      dispatch({ type: "loading" });
 
-    try {
-      const res = await fetch(`${BASE_URL}/cities/${id}`);
-      const data = await res.json();
-      dispatch({ type: "city/loaded", payload: data });
-    } catch (error) {
-      dispatch({ type: "rejected", payload: "Error loading data" });
-    }
-  }
+      try {
+        const res = await fetch(`${BASE_URL}/cities/${id}`);
+        const data = await res.json();
+        dispatch({ type: "city/loaded", payload: data });
+      } catch (error) {
+        dispatch({ type: "rejected", payload: "Error loading data" });
+      }
+    },
+    [currentCity.id]
+  );
+  
   async function createCity(newCity) {
     dispatch({ type: "loading" });
     try {
@@ -104,7 +109,7 @@ function CitiesProvider({ children }) {
 
       dispatch({ type: "city/deleted", payload: id });
     } catch (error) {
-       dispatch({ type: "rejected", payload: "Error deleting city" });
+      dispatch({ type: "rejected", payload: "Error deleting city" });
     }
   }
 
@@ -114,7 +119,6 @@ function CitiesProvider({ children }) {
         cities,
         isLoading,
         currentCity,
- 
         getCity,
         createCity,
         deleteCity,
