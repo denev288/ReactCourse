@@ -33,10 +33,6 @@ export default function Test() {
   //     <h1>Slow counter?!?</h1>
   //     <button onClick={() => setCount((c) => c + 1)}>Increase: {count}</button>
 
-  //     <SlowComponent />
-  //   </div>
-  // );
-
   return (
     <div>
       <h1>Slow counter?!?</h1>
@@ -45,4 +41,13 @@ export default function Test() {
       </Counter>
     </div>
   );
+
+  // return (
+  //   <div>
+  //     <h1>Slow counter?!?</h1>
+  //     <Counter>
+  //       <SlowComponent />
+  //     </Counter>
+  //   </div>
+  // );
 }
