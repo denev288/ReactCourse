@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 const StyledFormRow = styled.div`
   display: grid;
   align-items: center;
@@ -42,7 +41,7 @@ function FormRow({ label, error, children }) {
     <StyledFormRow>
       {label && <Label htmlFor={children.props.id}>{label}</Label>}
       {children}
-      {error&& <Error>{error}</Error>}
+      {error && <Error>{error}</Error>}
     </StyledFormRow>
   );
 }

@@ -23,7 +23,7 @@ const Form = styled.form`
 `;
 
 Form.defaultProps = {
-  type: 'regularreset()'
-}
+  type: "regular",
+};
 
 export default Form;
