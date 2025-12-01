@@ -1,22 +1,23 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Spinner from 'ui/Spinner';
 import BookingDataBox from './BookingDataBox';
-import Row from 'ui/Row';
-import Heading from 'ui/Heading';
-import Tag from 'ui/Tag';
-import ButtonGroup from 'ui/ButtonGroup';
-import Button from 'ui/Button';
-import Modal from 'ui/Modal';
-import ConfirmDelete from 'ui/ConfirmDelete';
+import Row from '../../ui/Row';
+import Heading from '../../ui/Heading';
+import Tag from '../../ui/Tag';
+import ButtonGroup from '../../ui/ButtonGroup';
+import Button from '../../ui/Button';
+import Modal from '../../ui/Modal';
+import ConfirmDelete from '../../ui/ConfirmDelete';
 
-import { useBooking } from 'features/bookings/useBooking';
-import { useDeleteBooking } from './useDeleteBooking';
-import { useMoveBack } from 'hooks/useMoveBack';
-import { useCheckout } from 'features/check-in-out/useCheckout';
-import ButtonText from 'ui/ButtonText';
-import Empty from 'ui/Empty';
+
+
+import { useCheckout } from '../../features/check-in-out/useCheckout';
+import ButtonText from '../../ui/ButtonText';
+
+import { useDeleteBookings } from './useDeleteBookings';
+import { useBookings } from './useBookings';
+import { useMoveBack } from '../../hooks/useMoveBack';
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -25,8 +26,8 @@ const HeadingGroup = styled.div`
 `;
 
 function BookingDetail() {
-  const { booking } = useBooking();
-  const { mutate: deleteBooking, isLoading: isDeleting } = useDeleteBooking();
+  const { booking } = useBookings();
+  const { mutate: deleteBooking, isLoading: isDeleting } = useDeleteBookings();
   const { mutate: checkout, isLoading: isCheckingOut } = useCheckout();
 
   const moveBack = useMoveBack();

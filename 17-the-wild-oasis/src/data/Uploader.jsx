@@ -88,7 +88,7 @@ async function createBookings() {
       cabinPrice,
       extrasPrice,
       totalPrice,
-      guestId: allGuestIds.at(booking.guestId - 1),
+      guestid: allGuestIds.at(booking.guestid - 1),
       cabinId: allCabinIds.at(booking.cabinId - 1),
       status,
     };

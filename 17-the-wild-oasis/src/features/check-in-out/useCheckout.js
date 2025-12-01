@@ -1,1 +1,4 @@
-export function useCheckout (){}
+export function useCheckout (){
+
+    return 1;
+}

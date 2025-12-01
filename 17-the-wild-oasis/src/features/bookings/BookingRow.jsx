@@ -112,6 +112,7 @@ function BookingRow({
       <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
 
       <Amount>{formatCurrency(totalPrice)}</Amount>
+      
 
       {/* VIDEO we could export this into own component... */}
       <Modal>
@@ -148,9 +149,9 @@ function BookingRow({
             {/* <Menus.Button>Delete</Menus.Button> */}
 
             {/* Now it gets a bit confusing... */}
-            <Modal.Toggle opens="delete">
+            <Modal.Open opens="delete">
               <Menus.Button icon={<HiTrash />}>Delete booking</Menus.Button>
-            </Modal.Toggle>
+            </Modal.Open>
           </Menus.List>
         </Menus.Menu>
 
