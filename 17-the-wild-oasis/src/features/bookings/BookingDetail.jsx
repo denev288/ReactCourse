@@ -12,7 +12,7 @@ import ConfirmDelete from '../../ui/ConfirmDelete';
 
 
 
-import { useCheckout } from '../../features/check-in-out/useCheckout';
+import { useCheckOut } from '../../features/check-in-out/useCheckout';
 import ButtonText from '../../ui/ButtonText';
 
 import { useDeleteBookings } from './useDeleteBookings';
@@ -28,7 +28,7 @@ const HeadingGroup = styled.div`
 function BookingDetail() {
   const { booking } = useBookings();
   const { mutate: deleteBooking, isLoading: isDeleting } = useDeleteBookings();
-  const { mutate: checkout, isLoading: isCheckingOut } = useCheckout();
+  const { mutate: checkout, isLoading: isCheckingOut } = useCheckOut();
 
   const moveBack = useMoveBack();
   const navigate = useNavigate();
