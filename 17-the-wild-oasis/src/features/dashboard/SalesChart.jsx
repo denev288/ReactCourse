@@ -1,4 +1,4 @@
-import { useDarkMode } from 'context/DarkModeContext';
+import { useDarkMode } from '../../context/DarkModeContext';
 import { eachDayOfInterval, format, isSameDay, subDays } from 'date-fns';
 import {
   Area,
@@ -10,7 +10,7 @@ import {
   YAxis,
 } from 'recharts';
 import styled from 'styled-components';
-import Heading from 'ui/Heading';
+import Heading from '../../ui/Heading';
 import DashboardBox from './DashboardBox';
 
 const StyledSalesChart = styled(DashboardBox)`
@@ -27,22 +27,47 @@ function SalesChart({ bookings, numDays }) {
   // In the chart we need to set colors, but we can't do it based on CSS variables, because we have no access to them here. So let's set them manually
   const { isDarkMode } = useDarkMode();
 
-  const allDates = eachDayOfInterval({
-    start: subDays(new Date(), numDays - 1),
-    end: new Date(),
-  });
+  // Validate numDays and ensure it's at least 1 (fallback to 7)
+  const safeNumDays =
+    Number.isFinite(Number(numDays)) && Number(numDays) >= 1
+      ? Math.floor(Number(numDays))
+      : 7;
+
+  const endDate = new Date();
+  let startDate = subDays(endDate, safeNumDays - 1);
+
+  // Clamp startDate so it is not after endDate (just in case)
+  if (startDate > endDate) {
+    startDate = endDate;
+  }
+
+  // Build allDates safely — if eachDayOfInterval throws, fall back to [endDate]
+  let allDates = [];
+  try {
+    allDates = eachDayOfInterval({
+      start: startDate,
+      end: endDate,
+    });
+  } catch (err) {
+    // Fallback: use only the endDate so the chart still renders
+    allDates = [endDate];
+  }
 
   const data = allDates.map((date) => {
     return {
       label: format(date, 'MMM dd'),
-      totalSales: bookings
+      totalSales: (bookings || [])
         .filter((booking) => isSameDay(date, new Date(booking.created_at)))
         .reduce((acc, cur) => acc + cur.totalPrice, 0),
-      extrasSales: bookings
+      extrasSales: (bookings || [])
         .filter((booking) => isSameDay(date, new Date(booking.created_at)))
         .reduce((acc, cur) => acc + cur.extrasPrice, 0),
     };
   });
+
+  // Determine safe first/last dates for the heading
+  const firstDate = allDates[0] || endDate;
+  const lastDate = allDates[allDates.length - 1] || endDate;
 
   const colors = isDarkMode
     ? {
@@ -61,8 +86,8 @@ function SalesChart({ bookings, numDays }) {
   return (
     <StyledSalesChart>
       <Heading type='h2'>
-        Sales from {format(allDates.at(0), 'MMM dd yyyy')} &mdash;{' '}
-        {format(allDates.at(-1), 'MMM dd yyyy')}
+        Sales from {format(firstDate, 'MMM dd yyyy')} &mdash;{' '}
+        {format(lastDate, 'MMM dd yyyy')}
       </Heading>
 
       <ResponsiveContainer width='100%' height={300}>
